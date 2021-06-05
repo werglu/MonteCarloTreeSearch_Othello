@@ -16,7 +16,10 @@ namespace Othello
         public bool NoMoves = false;
         public Form1()
         {
-            InitializeComponent();  
+            InitializeComponent();
+            ChooseStrategy strategy = new ChooseStrategy();
+            strategy.Show();
+            othelloBoard.strategy = strategy.strategy;
 
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {

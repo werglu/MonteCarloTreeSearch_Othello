@@ -12,6 +12,7 @@ namespace Othello
         public int blackCount;
         public int whiteCount;
         public int player = 1; // Black starts
+        public Strategy strategy;
         public Board()
         {
             board = new int[8, 8];
