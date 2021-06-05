@@ -13,6 +13,7 @@ namespace Othello
         public int whiteCount;
         public int player = 1; // Black starts
         public Strategy strategy;
+        public IStrategy solver;
         public Board()
         {
             board = new int[8, 8];
@@ -42,12 +43,15 @@ namespace Othello
         }
 
 
-        private bool IsAnyMovePossibleForField(int fieldIndex) //sprawdza czy jest możliwy jakikolwiek ruch dla danego pola
+        public bool IsAnyMovePossibleForField(int fieldIndex) //sprawdza czy jest możliwy jakikolwiek ruch dla danego pola
         {
             int buttonIndex = fieldIndex;
             int row = (buttonIndex - 1) / 8;
             int col = buttonIndex - (row * 8) - 1;
-
+            if (board[row, col] != 0) //pole jest już zajęte
+            {
+                return false;
+            }
             if (row - 1 >= 0 && board[row - 1, col] == (player * (-1))) //up
             {
                 int r = row - 1;
@@ -57,6 +61,10 @@ namespace Othello
                     if (board[r, col] == player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (board[r, col] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -81,6 +89,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -103,6 +115,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (board[r, col] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         r++;
@@ -123,6 +139,10 @@ namespace Othello
                     if (board[row, c] == player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (board[row, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -148,6 +168,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -169,6 +193,10 @@ namespace Othello
                     if (board[r, c] == player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (board[r, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -195,6 +223,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -219,6 +251,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c++;
@@ -232,6 +268,429 @@ namespace Othello
             }
 
             return false;
+        }
+
+        public bool MakeMoveIfValid(Board othelloBoard, int filedIndex) //sprawdza czy ruch jest ok, i jeśli tak to wykonuje go 
+        {
+            bool valid = false;
+            int buttonIndex = filedIndex;
+            int row = (buttonIndex - 1) / 8;
+            int col = buttonIndex - (row * 8) - 1;
+            if (othelloBoard.board[row, col] != 0) //pole jest już zajęte
+            {
+                return false;
+            }
+
+            if (row - 1 >= 0 && othelloBoard.board[row - 1, col] == (othelloBoard.player * (-1))) //up
+            {
+                int r = row - 1;
+                bool canReverse = false;
+                while (r >= 0)
+                {
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, col] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        r--;
+                    }
+                }
+                if (r >= 0 && canReverse)
+                {
+                    while (r + 1 <= row - 1)
+                    {
+                        for (int ind=1; ind<=64;ind++)
+                        {
+                            if (ind == ((r + 1) * 8 + col + 1))
+                            {
+                                //btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, col] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+
+                        }
+
+                        r++;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (col - 1 >= 0 && othelloBoard.board[row, col - 1] == othelloBoard.player * (-1)) //left
+            {
+                int c = col - 1;
+                bool canReverse = false;
+                while (c >= 0)
+                {
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c--;
+                    }
+                }
+                if (c >= 0 && canReverse)
+                {
+                    for (int ind = 1; ind <= 64; ind++)
+                    {
+                        if (ind >= (row * 8 + c + 2) && ind <= (row * 8 + col - 1 + 1))
+                        {
+                           // btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                            othelloBoard.board[row, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                            if (othelloBoard.player == 1)
+                            {
+                                othelloBoard.blackCount++;
+                                othelloBoard.whiteCount--;
+                            }
+                            else
+                            {
+                                othelloBoard.whiteCount++;
+                                othelloBoard.blackCount--;
+                            }
+                        }
+
+                    }
+                    valid = true;
+                }
+            }
+
+            if (row + 1 <= 7 && othelloBoard.board[row + 1, col] == (othelloBoard.player * (-1))) //down
+            {
+                int r = row + 1;
+                bool canReverse = false;
+                while (r <= 7)
+                {
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, col] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        r++;
+                    }
+                }
+                if (r <= 7 && canReverse)
+                {
+                    while (r - 1 >= row + 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == ((r - 1) * 8 + col + 1))
+                            {
+                               // btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, col] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+
+                        }
+                        r--;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (col + 1 <= 7 && othelloBoard.board[row, col + 1] == othelloBoard.player * (-1)) //right
+            {
+                int c = col + 1;
+                bool canReverse = false;
+                while (c <= 7)
+                {
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c++;
+                    }
+                }
+                if (c <= 7 && canReverse)
+                {
+                    while (c - 1 >= col + 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == (row * 8 + c - 1 + 1))
+                            {
+                                //btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[row, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+
+                        }
+                        c--;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (row - 1 >= 0 && col - 1 >= 0 && othelloBoard.board[row - 1, col - 1] == othelloBoard.player * (-1)) //left-up
+            {
+                int c = col - 1;
+                int r = row - 1;
+                bool canReverse = false;
+                while (c >= 0 && r >= 0)
+                {
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c--;
+                        r--;
+                    }
+                }
+                if (c >= 0 && r >= 0 && canReverse)
+                {
+                    while (c + 1 <= col - 1 && r + 1 <= row - 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == ((r + 1) * 8 + c + 1 + 1))
+                            {
+                                //btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+                        }
+                        c++;
+                        r++;
+                    }
+                    valid = true;
+                }
+            }
+            if (row + 1 <= 7 && col + 1 <= 7 && othelloBoard.board[row + 1, col + 1] == othelloBoard.player * (-1)) //right-down
+            {
+                int c = col + 1;
+                int r = row + 1;
+                bool canReverse = false;
+                while (c <= 7 && r <= 7)
+                {
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c++;
+                        r++;
+                    }
+                }
+                if (c <= 7 && r <= 7 && canReverse)
+                {
+                    while (c - 1 >= col + 1 && r - 1 >= row + 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == ((r - 1) * 8 + c - 1 + 1))
+                            {
+                                //btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+                        }
+                        c--;
+                        r--;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (row + 1 <= 7 && col - 1 >= 0 && othelloBoard.board[row + 1, col - 1] == othelloBoard.player * (-1)) //left-down
+            {
+                int c = col - 1;
+                int r = row + 1;
+                bool canReverse = false;
+                while (c >= 0 && r <= 7)
+                {
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c--;
+                        r++;
+                    }
+                }
+                if (c >= 0 && r <= 7 && canReverse)
+                {
+                    while (c + 1 <= col - 1 && r - 1 >= row + 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == ((r - 1) * 8 + c + 1 + 1))
+                            {
+                               // btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+                        }
+                        c++;
+                        r--;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (row - 1 >= 0 && col + 1 <= 7 && othelloBoard.board[row - 1, col + 1] == othelloBoard.player * (-1)) //right-up
+            {
+                int c = col + 1;
+                int r = row - 1;
+                bool canReverse = false;
+                while (r >= 0 && c <= 7)
+                {
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
+                    {
+                        canReverse = true;
+                        break;
+                    }
+                    else if (board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        c++;
+                        r--;
+                    }
+                }
+                if (r >= 0 && c <= 7 && canReverse)
+                {
+                    while (c - 1 >= col + 1 && r + 1 <= row - 1)
+                    {
+                        for (int ind = 1; ind <= 64; ind++)
+                        {
+                            if (ind == ((r + 1) * 8 + c - 1 + 1))
+                            {
+                                //btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
+
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
+                                {
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
+                                }
+                                else
+                                {
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
+                                }
+                            }
+                        }
+                        c--;
+                        r++;
+                    }
+                    valid = true;
+                }
+            }
+
+            if (valid)
+            {
+                othelloBoard.board[row, col] = othelloBoard.player;
+            }
+
+            return valid;
         }
     }
 }

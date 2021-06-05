@@ -9,10 +9,6 @@ namespace Othello
     public partial class Form1 : Form
     {
         public Board othelloBoard = new Board();
-        //public int[,] Board = new int[8, 8]; //-1 White, 0 Empty, 1 Black
-        //public int BlackCount = 2;
-        //public int WhiteCount = 2;
-        //public int Player = 1; // Black starts
         public bool NoMoves = false;
         public Form1()
         {
@@ -20,6 +16,12 @@ namespace Othello
             ChooseStrategy strategy = new ChooseStrategy();
             strategy.Show();
             othelloBoard.strategy = strategy.strategy;
+            if (strategy.strategy == Strategy.Heuristic)
+            {
+                othelloBoard.solver = new HeuristicStrategy();
+            }
+            //TODO: add another strategies
+
 
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {
@@ -47,14 +49,23 @@ namespace Othello
             button.Region = new Region(p);
         }
 
-        private bool MoveIfIsMoveValid(Button button) //sprawdza czy ruch jest ok, i jeśli tak to wykonuje go 
+        private bool MoveIfIsMoveValid(Button button, int index = 0) //sprawdza czy ruch jest ok, i jeśli tak to wykonuje go 
         {
             bool valid = false;
-            var buttonName = button.Name.Replace("button", "");
-            int buttonIndex = int.Parse(buttonName);
+            int buttonIndex = index;
+            if (button != null)
+            { 
+                var buttonName = button.Name.Replace("button", "");
+                buttonIndex = int.Parse(buttonName);
+            }
+
             int row = (buttonIndex-1) / 8;
             int col = buttonIndex - (row * 8) - 1;
 
+            if(othelloBoard.board[row, col] != 0) //pole jest już zajęte
+            {
+                return false;
+            }
 
             if (row-1 >=0 && othelloBoard.board[row-1, col] == (othelloBoard.player * (-1))) //up
             {
@@ -65,6 +76,10 @@ namespace Othello
                     if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, col] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -117,6 +132,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if(othelloBoard.board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -160,6 +179,10 @@ namespace Othello
                     if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, col] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -209,6 +232,10 @@ namespace Othello
                     if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[row, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -261,6 +288,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -309,6 +340,10 @@ namespace Othello
                     if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -362,6 +397,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -411,6 +450,10 @@ namespace Othello
                     if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -466,7 +509,10 @@ namespace Othello
             int buttonIndex = int.Parse(buttonName);
             int row = (buttonIndex - 1) / 8;
             int col = buttonIndex - (row * 8) - 1;
-
+            if (othelloBoard.board[row, col] != 0) //pole jest już zajęte
+            {
+                return false;
+            }
             if (row - 1 >= 0 && othelloBoard.board[row - 1, col] == (othelloBoard.player * (-1))) //up
             {
                 int r = row - 1;
@@ -476,6 +522,10 @@ namespace Othello
                     if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, col] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -500,6 +550,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[row, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -522,6 +576,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[r, col] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         r++;
@@ -542,6 +600,10 @@ namespace Othello
                     if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[row, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -567,6 +629,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -588,6 +654,10 @@ namespace Othello
                     if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -614,6 +684,10 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
+                        break;
+                    }
                     else
                     {
                         c--;
@@ -636,6 +710,10 @@ namespace Othello
                     if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
+                        break;
+                    }
+                    else if (othelloBoard.board[r, c] == 0) //empty
+                    {
                         break;
                     }
                     else
@@ -664,6 +742,8 @@ namespace Othello
             }
             return false;
         }
+
+        //komputer gra jako Player = -1, użytkownik jako player = 1; użytkownik zaczyna grę
         private void button2_Click(object sender, EventArgs e)
         {
             label1.Text = "";
@@ -681,7 +761,7 @@ namespace Othello
                 }
             }
             else
-            {
+            {   
                 NoMoves = false;
                 if (MoveIfIsMoveValid((sender as Button)))
                 {
@@ -697,6 +777,34 @@ namespace Othello
                     (sender as Button).BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                     (sender as Button).Enabled = false;
                     othelloBoard.player = othelloBoard.player * (-1);
+
+                    if (othelloBoard.player == -1) //komputer
+                    {
+                        if (othelloBoard.strategy == Strategy.Heuristic)
+                        {
+                            //jeśli jest możliwe położenie piona w rogu to wykonaj ten ruch
+
+                            //generujemy wszytskie możliwe ruchy i wybieramy najlepszy
+                            var listOfAllMoves = othelloBoard.solver.GenerateAllMoves(othelloBoard);
+                            if (listOfAllMoves.Count() == 0) //komputer nie ma ruchu
+                            {
+                                label1.Text = "Brak ruchu. " + (othelloBoard.player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
+                            }
+                            else
+                            {
+                                var bestWhiteCount = listOfAllMoves.Max(x => x.Item1.whiteCount);
+                                var best = listOfAllMoves.Where(x => x.Item1.whiteCount == bestWhiteCount); //lista najlepszych ruchów
+                                Random rnd = new Random();
+                                int bestIndex = rnd.Next(0, best.Count()); // losujemy ruch sposród najlepszych ruchów
+                                var bestMove = best.ElementAt(bestIndex);
+                                System.Threading.Thread.Sleep(1000); // opóźnienie 
+                                MoveIfIsMoveValid(null, bestMove.Item2); //uaktualniamy stan planszy
+                                FindButtonById(bestMove.Item2, othelloBoard.player); //dodajemy element na wybranym polu i uaktualniamy black i white counter
+                            }
+                        }
+
+                        othelloBoard.player = othelloBoard.player * (-1);
+                    }
                 }
                 else
                 {
@@ -730,6 +838,28 @@ namespace Othello
 
             label2.Text = "Black:" + othelloBoard.blackCount.ToString();
             label3.Text = "White:" + othelloBoard.whiteCount.ToString();
+        }
+
+        public void FindButtonById(int id, int player)
+        {
+            foreach (var btn in this.Controls[0].Controls[0].Controls.OfType<Button>())
+            {
+                var ind = int.Parse(btn.Name.Replace("button", ""));
+                if (ind == id)
+                {
+                    btn.Enabled = true;
+                    btn.BackColor = player == 1 ? Color.Black : Color.White;
+                    btn.Enabled = false;
+                }
+            }
+            if (player == 1)
+            {
+                othelloBoard.blackCount++;
+            }
+            else
+            {
+                othelloBoard.whiteCount++;
+            }
         }
     }
 }
