@@ -8,19 +8,15 @@ namespace Othello
 {
     public partial class Form1 : Form
     {
-        public int[,] Board = new int[8, 8]; //-1 White, 0 Empty, 1 Black
-        public int BlackCount = 2;
-        public int WhiteCount = 2;
-        public int Player = 1; // Black starts
+        public Board othelloBoard = new Board();
+        //public int[,] Board = new int[8, 8]; //-1 White, 0 Empty, 1 Black
+        //public int BlackCount = 2;
+        //public int WhiteCount = 2;
+        //public int Player = 1; // Black starts
         public bool NoMoves = false;
         public Form1()
         {
-            InitializeComponent();
-     
-            Board[3, 3] = 1;
-            Board[4, 3] = -1;
-            Board[3, 4] = -1;
-            Board[4, 4] = 1;
+            InitializeComponent();  
 
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {
@@ -48,7 +44,7 @@ namespace Othello
             button.Region = new Region(p);
         }
 
-        private bool IsMoveValid(Button button)
+        private bool MoveIfIsMoveValid(Button button) //sprawdza czy ruch jest ok, i jeśli tak to wykonuje go 
         {
             bool valid = false;
             var buttonName = button.Name.Replace("button", "");
@@ -57,13 +53,13 @@ namespace Othello
             int col = buttonIndex - (row * 8) - 1;
 
 
-            if (row-1 >=0 && Board[row-1, col] == (Player * (-1))) //up
+            if (row-1 >=0 && othelloBoard.board[row-1, col] == (othelloBoard.player * (-1))) //up
             {
                 int r = row - 1;
                 bool canReverse = false;
                 while (r>=0)
                 {
-                    if (Board[r, col] == Player)
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -83,19 +79,19 @@ namespace Othello
                             if (ind == ((r + 1) * 8 + col + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind - 1) / 8, col] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind - 1) / 8, col] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
 
@@ -107,13 +103,13 @@ namespace Othello
                 }
             }
 
-            if (col-1>=0 && Board[row, col-1]== Player * (-1)) //left
+            if (col-1>=0 && othelloBoard.board[row, col-1]== othelloBoard.player * (-1)) //left
             {
                 int c = col - 1;
                 bool canReverse = false;
                 while (c >= 0)
                 {
-                    if (Board[row, c] == Player)
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -131,19 +127,19 @@ namespace Othello
                         if (ind >= (row * 8 + c + 2) && ind <= (row * 8 + col - 1 + 1))
                         {
                             btn.Enabled = true;
-                            btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                            btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                             btn.Enabled = false;
 
-                            Board[row, ind - ((ind-1)/8 * 8)-1] = Player;
-                            if (Player == 1)
+                            othelloBoard.board[row, ind - ((ind-1)/8 * 8)-1] = othelloBoard.player;
+                            if (othelloBoard.player == 1)
                             {
-                                BlackCount++;
-                                WhiteCount--;
+                                othelloBoard.blackCount++;
+                                othelloBoard.whiteCount--;
                             }
                             else
                             {
-                                WhiteCount++;
-                                BlackCount--;
+                                othelloBoard.whiteCount++;
+                                othelloBoard.blackCount--;
                             }
                         }
 
@@ -152,13 +148,13 @@ namespace Othello
                 }
             }
 
-            if (row + 1 <= 7 && Board[row + 1, col] == (Player * (-1))) //down
+            if (row + 1 <= 7 && othelloBoard.board[row + 1, col] == (othelloBoard.player * (-1))) //down
             {
                 int r = row + 1;
                 bool canReverse = false;
                 while (r <= 7)
                 {
-                    if (Board[r, col] == Player)
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -178,19 +174,19 @@ namespace Othello
                             if (ind == ((r - 1) * 8 + col + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind - 1) / 8, col] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind - 1) / 8, col] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
 
@@ -201,13 +197,13 @@ namespace Othello
                 }
             }
 
-            if (col + 1 <= 7 && Board[row, col + 1] == Player * (-1)) //right
+            if (col + 1 <= 7 && othelloBoard.board[row, col + 1] == othelloBoard.player * (-1)) //right
             {
                 int c = col + 1;
                 bool canReverse = false;
                 while (c <= 7)
                 {
-                    if (Board[row, c] == Player)
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -227,19 +223,19 @@ namespace Othello
                             if (ind == (row * 8 + c - 1 + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[row, ind - ((ind - 1) / 8 * 8) - 1] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[row, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
 
@@ -250,14 +246,14 @@ namespace Othello
                 }
             }
 
-            if (row-1>=0 && col-1 >= 0 && Board[row-1, col-1] == Player * (-1)) //left-up
+            if (row-1>=0 && col-1 >= 0 && othelloBoard.board[row-1, col-1] == othelloBoard.player * (-1)) //left-up
             {
                 int c = col - 1;
                 int r = row - 1;
                 bool canReverse = false;
                 while (c >= 0 && r >= 0)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -278,19 +274,19 @@ namespace Othello
                             if (ind == ((r + 1) * 8 + c + 1 + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind-1) / 8, ind - ((ind-1) / 8 * 8) - 1] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind-1) / 8, ind - ((ind-1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
                         }
@@ -300,14 +296,14 @@ namespace Othello
                     valid = true;
                 }
             }
-            if (row + 1 <= 7 && col + 1 <= 7 && Board[row + 1, col + 1] == Player * (-1)) //right-down
+            if (row + 1 <= 7 && col + 1 <= 7 && othelloBoard.board[row + 1, col + 1] == othelloBoard.player * (-1)) //right-down
             {
                 int c = col + 1;
                 int r = row + 1;
                 bool canReverse = false;
                 while (c <= 7 && r <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -328,19 +324,19 @@ namespace Othello
                             if (ind == ((r - 1) * 8 + c - 1 + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
                         }
@@ -351,14 +347,14 @@ namespace Othello
                 }
             }
 
-            if (row + 1 <= 7 && col - 1 >= 0 && Board[row + 1, col - 1] == Player * (-1)) //left-down
+            if (row + 1 <= 7 && col - 1 >= 0 && othelloBoard.board[row + 1, col - 1] == othelloBoard.player * (-1)) //left-down
             {
                 int c = col - 1;
                 int r = row + 1;
                 bool canReverse = false;
                 while (c >= 0 && r <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -379,19 +375,19 @@ namespace Othello
                             if (ind == ((r - 1) * 8 + c + 1 + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
                         }
@@ -402,14 +398,14 @@ namespace Othello
                 }
             }
 
-            if (row - 1 >= 0 && col + 1 <= 7 && Board[row - 1, col + 1] == Player * (-1)) //right-up
+            if (row - 1 >= 0 && col + 1 <= 7 && othelloBoard.board[row - 1, col + 1] == othelloBoard.player * (-1)) //right-up
             {
                 int c = col + 1;
                 int r = row - 1;
                 bool canReverse = false;
                 while (r >= 0 && c <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -430,19 +426,19 @@ namespace Othello
                             if (ind == ((r + 1) * 8 + c - 1 + 1))
                             {
                                 btn.Enabled = true;
-                                btn.BackColor = Player == 1 ? Color.Black : Color.White;
+                                btn.BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                                 btn.Enabled = false;
 
-                                Board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = Player;
-                                if (Player == 1)
+                                othelloBoard.board[(ind - 1) / 8, ind - ((ind - 1) / 8 * 8) - 1] = othelloBoard.player;
+                                if (othelloBoard.player == 1)
                                 {
-                                    BlackCount++;
-                                    WhiteCount--;
+                                    othelloBoard.blackCount++;
+                                    othelloBoard.whiteCount--;
                                 }
                                 else
                                 {
-                                    WhiteCount++;
-                                    BlackCount--;
+                                    othelloBoard.whiteCount++;
+                                    othelloBoard.blackCount--;
                                 }
                             }
                         }
@@ -455,26 +451,26 @@ namespace Othello
 
             if (valid)
             {
-                Board[row, col] = Player;
+                othelloBoard.board[row, col] = othelloBoard.player;
             }
 
             return valid;
         }
 
-        private bool IsAnyMovePossibleForButton(Button button)
+        private bool IsAnyMovePossibleForButton(Button button) //sprawdza czy jest możliwy jakikolwiek ruch dla danego przycisku
         {
             var buttonName = button.Name.Replace("button", "");
             int buttonIndex = int.Parse(buttonName);
             int row = (buttonIndex - 1) / 8;
             int col = buttonIndex - (row * 8) - 1;
 
-            if (row - 1 >= 0 && Board[row - 1, col] == (Player * (-1))) //up
+            if (row - 1 >= 0 && othelloBoard.board[row - 1, col] == (othelloBoard.player * (-1))) //up
             {
                 int r = row - 1;
                 bool canReverse = false;
                 while (r >= 0)
                 {
-                    if (Board[r, col] == Player)
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -490,13 +486,13 @@ namespace Othello
                 }
             }
 
-            if (col - 1 >= 0 && Board[row, col - 1] == Player * (-1)) //left
+            if (col - 1 >= 0 && othelloBoard.board[row, col - 1] == othelloBoard.player * (-1)) //left
             {
                 int c = col - 1;
                 bool canReverse = false;
                 while (c >= 0)
                 {
-                    if (Board[row, c] == Player)
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -512,13 +508,13 @@ namespace Othello
                 }
             }
 
-            if (row + 1 <= 7 && Board[row + 1, col] == (Player * (-1))) //down
+            if (row + 1 <= 7 && othelloBoard.board[row + 1, col] == (othelloBoard.player * (-1))) //down
             {
                 int r = row + 1;
                 bool canReverse = false;
                 while (r <= 7)
                 {
-                    if (Board[r, col] == Player)
+                    if (othelloBoard.board[r, col] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -534,13 +530,13 @@ namespace Othello
                 }
             }
 
-            if (col + 1 <= 7 && Board[row, col + 1] == Player * (-1)) //right
+            if (col + 1 <= 7 && othelloBoard.board[row, col + 1] == othelloBoard.player * (-1)) //right
             {
                 int c = col + 1;
                 bool canReverse = false;
                 while (c <= 7)
                 {
-                    if (Board[row, c] == Player)
+                    if (othelloBoard.board[row, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -556,14 +552,14 @@ namespace Othello
                 }
             }
 
-            if (row - 1 >= 0 && col - 1 >= 0 && Board[row - 1, col - 1] == Player * (-1)) //left-up
+            if (row - 1 >= 0 && col - 1 >= 0 && othelloBoard.board[row - 1, col - 1] == othelloBoard.player * (-1)) //left-up
             {
                 int c = col - 1;
                 int r = row - 1;
                 bool canReverse = false;
                 while (c >= 0 && r >= 0)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -579,14 +575,14 @@ namespace Othello
                     return true;
                 }
             }
-            if (row + 1 <= 7 && col + 1 <= 7 && Board[row + 1, col + 1] == Player * (-1)) //right-down
+            if (row + 1 <= 7 && col + 1 <= 7 && othelloBoard.board[row + 1, col + 1] == othelloBoard.player * (-1)) //right-down
             {
                 int c = col + 1;
                 int r = row + 1;
                 bool canReverse = false;
                 while (c <= 7 && r <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -603,14 +599,14 @@ namespace Othello
                 }
             }
 
-            if (row + 1 <= 7 && col - 1 >= 0 && Board[row + 1, col - 1] == Player * (-1)) //left-down
+            if (row + 1 <= 7 && col - 1 >= 0 && othelloBoard.board[row + 1, col - 1] == othelloBoard.player * (-1)) //left-down
             {
                 int c = col - 1;
                 int r = row + 1;
                 bool canReverse = false;
                 while (c >= 0 && r <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -627,14 +623,14 @@ namespace Othello
                 }
             }
 
-            if (row - 1 >= 0 && col + 1 <= 7 && Board[row - 1, col + 1] == Player * (-1)) //right-up
+            if (row - 1 >= 0 && col + 1 <= 7 && othelloBoard.board[row - 1, col + 1] == othelloBoard.player * (-1)) //right-up
             {
                 int c = col + 1;
                 int r = row - 1;
                 bool canReverse = false;
                 while (r >= 0 && c <= 7)
                 {
-                    if (Board[r, c] == Player)
+                    if (othelloBoard.board[r, c] == othelloBoard.player)
                     {
                         canReverse = true;
                         break;
@@ -677,27 +673,27 @@ namespace Othello
                 else
                 {
                     NoMoves = true;
-                    label1.Text = "Brak ruchu. " + (Player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
-                    Player = Player * (-1);
+                    label1.Text = "Brak ruchu. " + (othelloBoard.player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
+                    othelloBoard.player = othelloBoard.player * (-1);
                 }
             }
             else
             {
                 NoMoves = false;
-                if (IsMoveValid((sender as Button)))
+                if (MoveIfIsMoveValid((sender as Button)))
                 {
-                    if (Player == 1)
+                    if (othelloBoard.player == 1)
                     {
-                        BlackCount++;
+                        othelloBoard.blackCount++;
                     }
                     else
                     {
-                        WhiteCount++;
+                        othelloBoard.whiteCount++;
                     }
 
-                    (sender as Button).BackColor = Player == 1 ? Color.Black : Color.White;
+                    (sender as Button).BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                     (sender as Button).Enabled = false;
-                    Player = Player * (-1);
+                    othelloBoard.player = othelloBoard.player * (-1);
                 }
                 else
                 {
@@ -705,21 +701,21 @@ namespace Othello
                 }
             }
 
-            if (WhiteCount == 0)
+            if (othelloBoard.whiteCount == 0)
             {
                 MessageBox.Show("Zwyciężył gracz czarny!", "Zwycięstwo!");
             }
-            else if (BlackCount == 0)
+            else if (othelloBoard.blackCount == 0)
             {
                 MessageBox.Show("Zwyciężył gracz biały!", "Zwycięstwo!");
             }
-            else if (WhiteCount+BlackCount == 64 || IsBoardFill())
+            else if (othelloBoard.whiteCount + othelloBoard.blackCount == 64 || othelloBoard.IsBoardFill())
             {
-                if (WhiteCount > BlackCount)
+                if (othelloBoard.whiteCount > othelloBoard.blackCount)
                 {
                     MessageBox.Show("Zwyciężył gracz biały!", "Zwycięstwo!");
                 }
-                else if (BlackCount > WhiteCount)
+                else if (othelloBoard.blackCount > othelloBoard.whiteCount)
                 {
                     MessageBox.Show("Zwyciężył gracz czarny!", "Zwycięstwo!");
                 }
@@ -729,23 +725,8 @@ namespace Othello
                 }
             }
 
-            label2.Text = "Black:" + BlackCount.ToString();
-            label3.Text = "White:" + WhiteCount.ToString();
-        }
-
-        private bool IsBoardFill()
-        {
-            for (int i=0; i<8; i++)
-            {
-                for (int j=0;j<8;j++)
-                {
-                    if (Board[i, j]==0)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            label2.Text = "Black:" + othelloBoard.blackCount.ToString();
+            label3.Text = "White:" + othelloBoard.whiteCount.ToString();
         }
     }
 }
