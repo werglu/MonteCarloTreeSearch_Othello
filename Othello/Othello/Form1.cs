@@ -777,6 +777,8 @@ namespace Othello
                     (sender as Button).BackColor = othelloBoard.player == 1 ? Color.Black : Color.White;
                     (sender as Button).Enabled = false;
                     othelloBoard.player = othelloBoard.player * (-1);
+                    label2.Text = "Black:" + othelloBoard.blackCount.ToString();
+                    label3.Text = "White:" + othelloBoard.whiteCount.ToString();
 
                     if (othelloBoard.player == -1) //komputer
                     {
@@ -812,6 +814,9 @@ namespace Othello
                 }
             }
 
+            label2.Text = "Black:" + othelloBoard.blackCount.ToString();
+            label3.Text = "White:" + othelloBoard.whiteCount.ToString();
+
             if (othelloBoard.whiteCount == 0)
             {
                 MessageBox.Show("Zwyciężył gracz czarny!", "Zwycięstwo!");
@@ -835,9 +840,6 @@ namespace Othello
                     MessageBox.Show("Remis!", "Remis!");
                 }
             }
-
-            label2.Text = "Black:" + othelloBoard.blackCount.ToString();
-            label3.Text = "White:" + othelloBoard.whiteCount.ToString();
         }
 
         public void FindButtonById(int id, int player)
