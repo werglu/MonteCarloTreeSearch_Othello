@@ -54,7 +54,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 76.44628F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 23F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(397, 264);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(432, 317);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // groupBox1
@@ -62,9 +62,9 @@
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.groupBox1.Location = new System.Drawing.Point(3, 47);
+            this.groupBox1.Location = new System.Drawing.Point(3, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 100);
+            this.groupBox1.Size = new System.Drawing.Size(227, 158);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Wybierz strategię:";
@@ -72,9 +72,9 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 42);
+            this.radioButton2.Location = new System.Drawing.Point(9, 61);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(106, 24);
+            this.radioButton2.Size = new System.Drawing.Size(155, 33);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Heurystyka";
@@ -83,9 +83,9 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
+            this.radioButton1.Location = new System.Drawing.Point(9, 34);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(71, 24);
+            this.radioButton1.Size = new System.Drawing.Size(107, 33);
             this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "MCTS";
@@ -97,7 +97,7 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.button1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button1.Location = new System.Drawing.Point(225, 190);
+            this.button1.Location = new System.Drawing.Point(260, 243);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(169, 47);
             this.button1.TabIndex = 1;
@@ -112,7 +112,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(391, 44);
+            this.label1.Size = new System.Drawing.Size(426, 56);
             this.label1.TabIndex = 2;
             this.label1.Text = "Użytkownik - czarne pinoki, komputer - białe";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -126,9 +126,9 @@
             // 
             // ChooseStrategy
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(397, 264);
+            this.ClientSize = new System.Drawing.Size(432, 317);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));

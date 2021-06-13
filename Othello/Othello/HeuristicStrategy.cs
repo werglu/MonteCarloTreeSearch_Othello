@@ -26,7 +26,7 @@ namespace Othello
             for (int ind = 1; ind <= 64; ind++)
             {
                 var newBoard = new Board();
-                newBoard.strategy = actualBoard.strategy;
+                //newBoard.strategy = actualBoard.strategy;
                 newBoard.blackCount = actualBoard.blackCount;
                 newBoard.whiteCount = actualBoard.whiteCount;
                 newBoard.player = actualBoard.player;

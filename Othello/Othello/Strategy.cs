@@ -9,6 +9,7 @@ namespace Othello
     public enum Strategy
     {
         Heuristic,
-        BasicMCTS
+        BasicMCTS, 
+        UTC
     }
 }

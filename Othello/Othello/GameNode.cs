@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Othello
+{
+    class GameNode
+    {
+        private List<(Board, int)> allUntriedActions;
+        public List<GameNode> Children { get; }
+        public NodeState state;
+        public int ActionIndex { get; } //Number of field which was used by parent node to create this node
+        public GameNode Parent { get; }
+
+        public GameNode(NodeState state, int actionIndex, GameNode parent)
+        {
+            Children = new List<GameNode>();
+            this.state = state;
+            this.ActionIndex = actionIndex;
+            allUntriedActions = state.Board.GetAllPossibleMoves();
+            Parent = parent;
+
+        }
+
+        public bool IsFullyExpanded()
+        {
+            return allUntriedActions.Count == 0;
+        }
+
+        public int GetUntiredActionsCount()
+        {
+            return allUntriedActions.Count;
+        }
+
+        public GameNode ChooseUntriedAction(int actionIndex)
+        {
+            (Board actionBoard, int actionField) = allUntriedActions.ElementAt(actionIndex);
+            GameNode child = new GameNode(new NodeState(0, 0, actionBoard, actionBoard.IsBoardEnd()), actionField, this);
+            Children.Add(child);
+            allUntriedActions.RemoveAt(actionIndex);
+            return child;
+        }
+
+        //public GameNode ChooseAction(int actionIndex)
+        //{
+        //    return Children.ElementAt(actionIndex);
+        //}
+
+        public bool IsTerminal()
+        {
+            return state.IsTerminal;
+        }
+
+        public double GetReward()
+        {
+            return state.SimulationsReward;
+        }
+
+        public void UpdateCounter()
+        {
+            state.SimulationsCounter += 1;
+        }
+
+        public void UpdateReward(double reward)
+        {
+            state.SimulationsReward += reward;
+        }
+
+    }
+}
