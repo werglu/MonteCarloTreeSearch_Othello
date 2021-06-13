@@ -12,8 +12,8 @@ namespace Othello
         public int blackCount;
         public int whiteCount;
         public int player = 1; // Black starts
-        public Strategy strategy;
-        public IStrategy solver;
+        //public Strategy strategy;
+        //public IStrategy solver;
         public Board()
         {
             board = new int[8, 8];
@@ -748,7 +748,7 @@ namespace Othello
             for (int ind = 1; ind <= 64; ind++)
             {
                 var newBoard = new Board();
-                newBoard.strategy = this.strategy;
+                //newBoard.strategy = this.strategy;
                 newBoard.blackCount = this.blackCount;
                 newBoard.whiteCount = this.whiteCount;
                 newBoard.player = this.player;

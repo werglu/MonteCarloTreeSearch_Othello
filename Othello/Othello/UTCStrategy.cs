@@ -38,6 +38,10 @@ namespace Othello
         {
             var initialState = new NodeState(0, 0, curentBoard, false);
             var root = new GameNode(initialState, -1, null);
+            if (!root.AreAnyMovesPossible())
+            {
+                return -1;
+            }
             int budgetLeft = budget;
             while(budgetLeft > 0)
             {
@@ -46,6 +50,7 @@ namespace Othello
                 BackPropagation(vl, delta);
                 budgetLeft--;
             }
+
             return BestChild(root, 0).ActionIndex;
         }
 

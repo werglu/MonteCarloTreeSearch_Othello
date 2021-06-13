@@ -24,6 +24,11 @@ namespace Othello
 
         }
 
+        public bool AreAnyMovesPossible()
+        {
+            return allUntriedActions != null && allUntriedActions.Count > 0;
+        }
+
         public bool IsFullyExpanded()
         {
             return allUntriedActions.Count == 0;

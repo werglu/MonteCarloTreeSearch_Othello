@@ -10,6 +10,5 @@ namespace Othello
     {
         Heuristic,
         BasicMCTS, 
-        UTC
     }
 }
