@@ -12,30 +12,22 @@ namespace Othello
         public bool NoMoves = false;
         IStrategy solver;
         Strategy gameStrategy;
+        ChooseStrategy strategy = new ChooseStrategy();
+
         public Form1()
         {
             InitializeComponent();
-            ChooseStrategy strategy = new ChooseStrategy();
             strategy.Show();
             //othelloBoard.strategy = strategy.strategy;
             //othelloBoard.strategy = Strategy.BasicMCTS;
-            gameStrategy = strategy.strategy;
-            if (strategy.strategy == Strategy.Heuristic)
-            {
-                solver = new HeuristicStrategy();
-            }
-            else if (strategy.strategy == Strategy.BasicMCTS)
-            {
-                throw new NotImplementedException();
-                solver = new UTCStrategy(1, 100);
-            }
+  
             //TODO: add another strategies
 
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {
                 SetUpButton(button, Color.Green, true);
                 button.Click += button2_Click;
-                button.Text = (button.Name).ToString();
+                //button.Text = (button.Name).ToString();
             }
 
             SetUpButton(button28, Color.Black);
@@ -777,7 +769,9 @@ namespace Othello
             }
             else if (gameStrategy == Strategy.BasicMCTS)
             {
-                var solver = new UTCStrategy(Math.Sqrt(2), 200);
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                var solver = new UTCStrategy(cp, iter);
                 nextMove = solver.GetNextMove(othelloBoard);
             }
 
@@ -798,6 +792,18 @@ namespace Othello
         //komputer gra jako Player = -1, użytkownik jako player = 1; użytkownik zaczyna grę
         private void button2_Click(object sender, EventArgs e)
         {
+            gameStrategy = strategy.strategy;
+            if (strategy.strategy == Strategy.Heuristic)
+            {
+                solver = new HeuristicStrategy();
+            }
+            else if (strategy.strategy == Strategy.BasicMCTS)
+            { 
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                solver = new UTCStrategy(cp, iter);
+            }
+
             label1.Text = "";
             if (!IsAnyMovePossible())
             {
