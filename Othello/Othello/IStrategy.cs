@@ -8,7 +8,7 @@ namespace Othello
 {
     public interface IStrategy
     {
-        void MakeMove(int index);
+        int GetNextMove(Board board);
         List<(Board, int)> GenerateAllMoves(Board actualBoard);
     }
 }

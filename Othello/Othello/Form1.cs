@@ -767,18 +767,8 @@ namespace Othello
                     nextMove = bestMove.Item2;
                 }
             }
-            else if (gameStrategy == Strategy.BasicMCTS)
+            else
             {
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                var solver = new UTCStrategy(cp, iter);
-                nextMove = solver.GetNextMove(othelloBoard);
-            }
-            else if(gameStrategy == Strategy.UCB1_Tuned)
-            {
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                var solver = new TunedStrategy(cp, iter);
                 nextMove = solver.GetNextMove(othelloBoard);
             }
 
@@ -800,15 +790,33 @@ namespace Othello
         private void button2_Click(object sender, EventArgs e)
         {
             gameStrategy = strategy.strategy;
-            if (strategy.strategy == Strategy.Heuristic)
+            if (gameStrategy == Strategy.Heuristic)
             {
                 solver = new HeuristicStrategy();
             }
-            else if (strategy.strategy == Strategy.BasicMCTS)
+            else if (gameStrategy == Strategy.BasicUCT)
             { 
                 var cp = strategy.cp;
                 var iter = strategy.iter;
-                solver = new UTCStrategy(cp, iter);
+                solver = new UTCStrategy(-1, cp, iter, true);
+            }
+            else if(gameStrategy == Strategy.UCB1_Tuned)
+            {
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, true);
+            }
+            else if(gameStrategy == Strategy.DiffereceReward_BasicUCT)
+            {
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                solver = new UTCStrategy(-1, cp, iter, false);
+            }
+            else if (gameStrategy == Strategy.DiffereceReward_UCB1_Tuned)
+            {
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, false);
             }
 
             label1.Text = "";

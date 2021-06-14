@@ -22,17 +22,7 @@ namespace Othello
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
-            {
-                strategy = Strategy.BasicMCTS;
-                label2.Show();
-                label3.Show();
-                textBox1.Show();
-                textBox2.Show();
-                cp = double.Parse(textBox1.Text);
-                iter = int.Parse(textBox2.Text);
-            }
-            else if (radioButton2.Checked)
+            if (radioButton2.Checked)
             {
                 strategy = Strategy.Heuristic;
                 label2.Hide();
@@ -40,9 +30,39 @@ namespace Othello
                 textBox1.Hide();
                 textBox2.Hide();
             }
-            else if(radioButton3.Checked)
+            else if (radioButton1.Checked && !checkBox1.Checked)
+            {
+                strategy = Strategy.BasicUCT;
+                label2.Show();
+                label3.Show();
+                textBox1.Show();
+                textBox2.Show();
+                cp = double.Parse(textBox1.Text);
+                iter = int.Parse(textBox2.Text);
+            }
+            else if(radioButton1.Checked && checkBox1.Checked)
+            {
+                strategy = Strategy.DiffereceReward_BasicUCT;
+                label2.Show();
+                label3.Show();
+                textBox1.Show();
+                textBox2.Show();
+                cp = double.Parse(textBox1.Text);
+                iter = int.Parse(textBox2.Text);
+            }
+            else if(radioButton3.Checked && !checkBox1.Checked)
             {
                 strategy = Strategy.UCB1_Tuned;
+                label2.Show();
+                label3.Show();
+                textBox1.Show();
+                textBox2.Show();
+                cp = double.Parse(textBox1.Text);
+                iter = int.Parse(textBox2.Text);
+            }
+            else if(radioButton3.Checked && checkBox1.Checked)
+            {
+                strategy = Strategy.DiffereceReward_UCB1_Tuned;
                 label2.Show();
                 label3.Show();
                 textBox1.Show();
@@ -70,7 +90,7 @@ namespace Othello
         {
             if (radioButton1.Checked)
             {
-                strategy = Strategy.BasicMCTS;
+                strategy = Strategy.BasicUCT;
                 label2.Show();
                 label3.Show();
                 textBox1.Text = cp.ToString("N4");
@@ -92,6 +112,11 @@ namespace Othello
                 textBox1.Show();
                 textBox2.Show();
             }
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }

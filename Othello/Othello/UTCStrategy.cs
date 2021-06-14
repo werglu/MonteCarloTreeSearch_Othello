@@ -12,11 +12,15 @@ namespace Othello
         double cp;
         int budget;
         protected int iterationCount;
-        public UTCStrategy(double cp, int budget, int randomSeed = 123)
+        bool discreteRewardPolicy;
+        int player;
+        public UTCStrategy(int player, double cp, int budget, bool discreteRewardPolicy, int randomSeed = 123)
         {
             this.cp = cp;
             this.budget = budget;
             this.iterationCount = 0;
+            this.discreteRewardPolicy = discreteRewardPolicy;
+            this.player = player;
             random = new Random(randomSeed);
 
         }
@@ -25,11 +29,7 @@ namespace Othello
             throw new NotImplementedException();
         }
 
-        public void MakeMove(int index)
-        {
 
-
-        }
 
         public int GetNextMove(Board board)
         {
@@ -80,7 +80,7 @@ namespace Othello
 
         protected virtual GameNode BestChild(GameNode v, double cp)
         {
-            if (v.Children.Count == 0) return v;
+            if (v.Children.Count == 0) return v; 
             int argMax = 0;
             double valMax = double.MinValue;
             int nodeN = v.state.SimulationsCounter;
@@ -109,7 +109,7 @@ namespace Othello
             while (!board.IsBoardEnd())
             {
                 // my move
-                board.player = -1;
+                board.player = this.player;
                 possibleActions = board.GetAllPossibleMoves();
                 if(possibleActions.Count > 0)
                 {
@@ -118,7 +118,7 @@ namespace Othello
                 }
                 
                 // opponents move
-                board.player = 1;
+                board.player = this.player * (-1);
                 possibleActions = board.GetAllPossibleMoves();
                 if (possibleActions.Count > 0)
                 {
@@ -126,7 +126,8 @@ namespace Othello
                     board = possibleActions.ElementAt(randomIndex).Item1;
                 }
             }
-            return board.CountRewardDiscrete();
+            board.player = this.player;
+            return this.discreteRewardPolicy ? board.CountRewardDiscrete(): board.CountRewardDifference();
         }
 
         void BackPropagation(GameNode v, double reward)

@@ -9,7 +9,9 @@ namespace Othello
     public enum Strategy
     {
         Heuristic,
-        BasicMCTS, 
-        UCB1_Tuned
+        BasicUCT, 
+        UCB1_Tuned,
+        DiffereceReward_BasicUCT,
+        DiffereceReward_UCB1_Tuned
     }
 }

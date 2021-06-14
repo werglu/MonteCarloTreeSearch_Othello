@@ -14,9 +14,9 @@ namespace Othello
 
         }
 
-        public void MakeMove(int index)
+        public int GetNextMove(Board board)
         {
-            
+            throw new NotImplementedException();
         }
 
         public List<(Board, int)> GenerateAllMoves(Board actualBoard)

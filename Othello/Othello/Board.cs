@@ -771,7 +771,7 @@ namespace Othello
 
         public double CountRewardDiscrete()
         {
-            if(player == -1)
+            if(player == 1) // black player
             {
                 if (this.blackCount > this.whiteCount)
                     return 1;
@@ -787,13 +787,15 @@ namespace Othello
                     return 0;
                 else return -1;
             }
-            
         }
 
-        public double CountRewardContinuous()
+        public double CountRewardDifference()
         {
-            throw new NotImplementedException();
-            return this.blackCount - this.whiteCount;
+            if (player == 1) // black player
+            {
+                return this.blackCount - this.whiteCount;
+            }
+            else return this.whiteCount - this.blackCount; 
         }
 
 
