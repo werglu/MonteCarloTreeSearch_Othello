@@ -52,6 +52,11 @@ namespace Othello
             }
 
             this.Hide();
+            var form = new Form1();
+            form.cp = cp;
+            form.iter = iter;
+            form.gameStrategy = strategy;
+            form.Show();
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
