@@ -8,7 +8,7 @@ namespace Othello
 {
     class TunedStrategy : UTCStrategy
     {
-        public TunedStrategy(double cp, int budget, int randomSeed = 123): base(cp, budget, randomSeed)
+        public TunedStrategy(int player, double cp, int budget, bool discreteRewardPolicy, int randomSeed = 123): base(player, cp, budget, discreteRewardPolicy, randomSeed)
         {
 
         }
