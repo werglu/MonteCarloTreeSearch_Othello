@@ -10,5 +10,6 @@ namespace Othello
     {
         Heuristic,
         BasicMCTS, 
+        UCB1_Tuned
     }
 }

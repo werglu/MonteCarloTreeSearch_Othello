@@ -774,6 +774,13 @@ namespace Othello
                 var solver = new UTCStrategy(cp, iter);
                 nextMove = solver.GetNextMove(othelloBoard);
             }
+            else if(gameStrategy == Strategy.UCB1_Tuned)
+            {
+                var cp = strategy.cp;
+                var iter = strategy.iter;
+                var solver = new TunedStrategy(cp, iter);
+                nextMove = solver.GetNextMove(othelloBoard);
+            }
 
             if(nextMove >= 0)
             {

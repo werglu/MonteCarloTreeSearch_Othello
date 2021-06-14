@@ -40,6 +40,16 @@ namespace Othello
                 textBox1.Hide();
                 textBox2.Hide();
             }
+            else if(radioButton3.Checked)
+            {
+                strategy = Strategy.UCB1_Tuned;
+                label2.Show();
+                label3.Show();
+                textBox1.Show();
+                textBox2.Show();
+                cp = double.Parse(textBox1.Text);
+                iter = int.Parse(textBox2.Text);
+            }
 
             this.Hide();
         }
@@ -70,5 +80,19 @@ namespace Othello
             }
         }
 
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked)
+            {
+                strategy = Strategy.UCB1_Tuned;
+                label2.Show();
+                label3.Show();
+                textBox1.Text = cp.ToString("N4");
+                textBox2.Text = iter.ToString();
+                textBox1.Show();
+                textBox2.Show();
+            }
+
+        }
     }
 }

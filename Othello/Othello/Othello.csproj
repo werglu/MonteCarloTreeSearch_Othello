@@ -66,6 +66,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strategy.cs" />
+    <Compile Include="TunedStrategy.cs" />
     <Compile Include="UTCStrategy.cs" />
     <EmbeddedResource Include="ChooseStrategy.resx">
       <DependentUpon>ChooseStrategy.cs</DependentUpon>

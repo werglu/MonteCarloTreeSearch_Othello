@@ -8,13 +8,15 @@ namespace Othello
 {
     class UTCStrategy : IStrategy
     {
-        Random random;
+        protected Random random;
         double cp;
         int budget;
+        protected int iterationCount;
         public UTCStrategy(double cp, int budget, int randomSeed = 123)
         {
             this.cp = cp;
             this.budget = budget;
+            this.iterationCount = 0;
             random = new Random(randomSeed);
 
         }
@@ -42,13 +44,13 @@ namespace Othello
             {
                 return -1;
             }
-            int budgetLeft = budget;
-            while(budgetLeft > 0)
+            this.iterationCount = 0;
+            while(this.iterationCount < budget)
             {
                 var vl = TreePolicy(root);
                 var delta = DefaultPolicy(vl);
                 BackPropagation(vl, delta);
-                budgetLeft--;
+                this.iterationCount++;
             }
 
             return BestChild(root, 0).ActionIndex;
@@ -76,7 +78,7 @@ namespace Othello
             return v.ChooseUntriedAction(randomIndex);
         }
 
-        private GameNode BestChild(GameNode v, double cp)
+        protected virtual GameNode BestChild(GameNode v, double cp)
         {
             if (v.Children.Count == 0) return v;
             int argMax = 0;
@@ -131,8 +133,7 @@ namespace Othello
         {
             while(v != null)
             {
-                v.UpdateCounter();
-                v.UpdateReward(reward);
+                v.UpdateCounterAndReward(reward);
                 v = v.Parent;
             }
         }

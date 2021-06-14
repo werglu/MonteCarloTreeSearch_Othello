@@ -63,14 +63,11 @@ namespace Othello
             return state.SimulationsReward;
         }
 
-        public void UpdateCounter()
+        public void UpdateCounterAndReward(double reward)
         {
             state.SimulationsCounter += 1;
-        }
-
-        public void UpdateReward(double reward)
-        {
             state.SimulationsReward += reward;
+            state.RewardList.Add(reward);
         }
 
     }
