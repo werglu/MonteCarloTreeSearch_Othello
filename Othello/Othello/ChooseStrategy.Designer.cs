@@ -40,7 +40,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +53,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.55372F));
@@ -79,7 +78,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(375, 252);
+            this.groupBox1.Size = new System.Drawing.Size(423, 252);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Wybierz strategię:";
@@ -89,7 +88,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(9, 149);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(312, 33);
+            this.checkBox1.Size = new System.Drawing.Size(207, 24);
             this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Licz nagrodę jako różnicę";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -98,10 +97,10 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(9, 111);
+            this.radioButton3.Location = new System.Drawing.Point(9, 89);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(179, 33);
+            this.radioButton3.Size = new System.Drawing.Size(120, 24);
             this.radioButton3.TabIndex = 6;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "UCB1-Tuned";
@@ -111,7 +110,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(189, 205);
+            this.label3.Location = new System.Drawing.Point(203, 205);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(64, 20);
             this.label3.TabIndex = 5;
@@ -143,8 +142,8 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(9, 62);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.radioButton2.Location = new System.Drawing.Point(8, 62);
+            this.radioButton2.Margin = new System.Windows.Forms.Padding(1);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(106, 24);
             this.radioButton2.TabIndex = 1;
@@ -156,8 +155,8 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(9, 36);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.radioButton1.Location = new System.Drawing.Point(8, 36);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(1);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(71, 24);
             this.radioButton1.TabIndex = 0;
@@ -172,10 +171,10 @@
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
             this.button1.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.button1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button1.Location = new System.Drawing.Point(302, 345);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 10, 2, 2);
+            this.button1.Location = new System.Drawing.Point(324, 345);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 10, 10, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 34);
+            this.button1.Size = new System.Drawing.Size(102, 51);
             this.button1.TabIndex = 1;
             this.button1.Text = "Start!";
             this.button1.UseVisualStyleBackColor = false;
@@ -189,29 +188,20 @@
             this.label1.Location = new System.Drawing.Point(1, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(432, 79);
+            this.label1.Size = new System.Drawing.Size(434, 79);
             this.label1.TabIndex = 2;
             this.label1.Text = "Użytkownik - czarne pinoki, komputer - białe";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(483, 296);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(120, 65);
-            this.flowLayoutPanel1.TabIndex = 1;
             // 
             // ChooseStrategy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(436, 413);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.Location = new System.Drawing.Point(385, 305);
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.Name = "ChooseStrategy";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Wybierz strategię";

@@ -32,6 +32,35 @@ namespace Othello
             SetUpButton(button37, Color.Black);
             SetUpButton(button29, Color.White);
             SetUpButton(button36, Color.White);
+
+            if (gameStrategy == Strategy.Heuristic)
+            {
+                solver = new HeuristicStrategy();
+            }
+            else if (gameStrategy == Strategy.BasicUCT)
+            {
+                //var cp = strategy.cp;
+                //var iter = strategy.iter;
+                solver = new UTCStrategy(-1, cp, iter, true);
+            }
+            else if (gameStrategy == Strategy.UCB1_Tuned)
+            {
+                //var cp = strategy.cp;
+                // var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, true);
+            }
+            else if (gameStrategy == Strategy.DiffereceReward_BasicUCT)
+            {
+                // var cp = strategy.cp;
+                // var iter = strategy.iter;
+                solver = new UTCStrategy(-1, cp, iter, false);
+            }
+            else if (gameStrategy == Strategy.DiffereceReward_UCB1_Tuned)
+            {
+                // var cp = strategy.cp;
+                //var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, false);
+            }
         }
 
         private void SetUpButton(Button button, Color c, bool enable = false)
@@ -787,36 +816,6 @@ namespace Othello
         //komputer gra jako Player = -1, użytkownik jako player = 1; użytkownik zaczyna grę
         private void button2_Click(object sender, EventArgs e)
         {
-            gameStrategy = strategy.strategy;
-            if (gameStrategy == Strategy.Heuristic)
-            {
-                solver = new HeuristicStrategy();
-            }
-            else if (gameStrategy == Strategy.BasicUCT)
-            { 
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                solver = new UTCStrategy(-1, cp, iter, true);
-            }
-            else if(gameStrategy == Strategy.UCB1_Tuned)
-            {
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                solver = new TunedStrategy(-1, cp, iter, true);
-            }
-            else if(gameStrategy == Strategy.DiffereceReward_BasicUCT)
-            {
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                solver = new UTCStrategy(-1, cp, iter, false);
-            }
-            else if (gameStrategy == Strategy.DiffereceReward_UCB1_Tuned)
-            {
-                var cp = strategy.cp;
-                var iter = strategy.iter;
-                solver = new TunedStrategy(-1, cp, iter, false);
-            }
-
             label1.Text = "";
             if (!IsAnyMovePossible())
             {
