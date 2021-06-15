@@ -80,7 +80,6 @@ namespace Othello
 
         protected virtual GameNode BestChild(GameNode v, double cp)
         {
-            if (v.Children.Count == 0) return v; 
             int argMax = 0;
             double valMax = double.MinValue;
             int nodeN = v.state.SimulationsCounter;

@@ -53,9 +53,9 @@ namespace Othello
         //    return Children.ElementAt(actionIndex);
         //}
 
-        public bool IsTerminal()
+        public bool IsTerminal() // node is terminal when the state is terminal or there is no possible actions
         {
-            return state.IsTerminal;
+            return state.IsTerminal || (allUntriedActions.Count == 0 && Children.Count == 0);
         }
 
         public double GetReward()
