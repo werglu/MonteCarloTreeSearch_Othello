@@ -10,19 +10,18 @@ namespace Othello
     {
         public Board othelloBoard = new Board();
         public bool NoMoves = false;
+        public double cp;
+        public int iter;
+        IStrategy solver;
+        public Strategy gameStrategy;
+
         public Form1()
         {
             InitializeComponent();
-            ChooseStrategy strategy = new ChooseStrategy();
-            strategy.Show();
-            othelloBoard.strategy = strategy.strategy;
-            if (strategy.strategy == Strategy.Heuristic)
-            {
-                othelloBoard.solver = new HeuristicStrategy();
-            }
-            //TODO: add another strategies
-
-
+            // strategy.Show();
+            //othelloBoard.strategy = strategy.strategy;
+            //othelloBoard.strategy = Strategy.BasicMCTS;
+  
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {
                 SetUpButton(button, Color.Green, true);
@@ -33,6 +32,35 @@ namespace Othello
             SetUpButton(button37, Color.Black);
             SetUpButton(button29, Color.White);
             SetUpButton(button36, Color.White);
+
+            if (gameStrategy == Strategy.Heuristic)
+            {
+                solver = new HeuristicStrategy();
+            }
+            else if (gameStrategy == Strategy.BasicUCT)
+            {
+                //var cp = strategy.cp;
+                //var iter = strategy.iter;
+                solver = new UTCStrategy(-1, cp, iter, true);
+            }
+            else if (gameStrategy == Strategy.UCB1_Tuned)
+            {
+                //var cp = strategy.cp;
+                // var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, true);
+            }
+            else if (gameStrategy == Strategy.DiffereceReward_BasicUCT)
+            {
+                // var cp = strategy.cp;
+                // var iter = strategy.iter;
+                solver = new UTCStrategy(-1, cp, iter, false);
+            }
+            else if (gameStrategy == Strategy.DiffereceReward_UCB1_Tuned)
+            {
+                // var cp = strategy.cp;
+                //var iter = strategy.iter;
+                solver = new TunedStrategy(-1, cp, iter, false);
+            }
         }
 
         private void SetUpButton(Button button, Color c, bool enable = false)
@@ -743,6 +771,48 @@ namespace Othello
             return false;
         }
 
+        private void NextMoveByComputer()
+        {
+            int nextMove = -1;
+            if (gameStrategy == Strategy.Heuristic)
+            {
+                //jeśli jest możliwe położenie piona w rogu to wykonaj ten ruch
+
+                //generujemy wszytskie możliwe ruchy i wybieramy najlepszy
+                var listOfAllMoves = solver.GenerateAllMoves(othelloBoard);
+                if (listOfAllMoves.Count() == 0) //komputer nie ma ruchu
+                {
+                    nextMove = -1;
+                }
+                else
+                {
+                    var bestWhiteCount = listOfAllMoves.Max(x => x.Item1.whiteCount);
+                    var best = listOfAllMoves.Where(x => x.Item1.whiteCount == bestWhiteCount); //lista najlepszych ruchów
+                    Random rnd = new Random();
+                    int bestIndex = rnd.Next(0, best.Count()); // losujemy ruch sposród najlepszych ruchów
+                    var bestMove = best.ElementAt(bestIndex);
+                    nextMove = bestMove.Item2;
+                }
+            }
+            else
+            {
+                nextMove = solver.GetNextMove(othelloBoard);
+            }
+
+            if(nextMove >= 0)
+            {
+                System.Threading.Thread.Sleep(1000); // opóźnienie 
+                MoveIfIsMoveValid(null, nextMove); //uaktualniamy stan planszy
+                FindButtonById(nextMove, othelloBoard.player); //dodajemy element na wybranym polu i uaktualniamy black i white counter
+            }
+            else
+            {
+                label1.Text = "Brak ruchu. " + (othelloBoard.player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
+            }
+
+            othelloBoard.player = othelloBoard.player * (-1);
+        }
+
         //komputer gra jako Player = -1, użytkownik jako player = 1; użytkownik zaczyna grę
         private void button2_Click(object sender, EventArgs e)
         {
@@ -758,6 +828,7 @@ namespace Othello
                     NoMoves = true;
                     label1.Text = "Brak ruchu. " + (othelloBoard.player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
                     othelloBoard.player = othelloBoard.player * (-1);
+                    NextMoveByComputer();
                 }
             }
             else
@@ -782,30 +853,7 @@ namespace Othello
 
                     if (othelloBoard.player == -1) //komputer
                     {
-                        if (othelloBoard.strategy == Strategy.Heuristic)
-                        {
-                            //jeśli jest możliwe położenie piona w rogu to wykonaj ten ruch
-
-                            //generujemy wszytskie możliwe ruchy i wybieramy najlepszy
-                            var listOfAllMoves = othelloBoard.solver.GenerateAllMoves(othelloBoard);
-                            if (listOfAllMoves.Count() == 0) //komputer nie ma ruchu
-                            {
-                                label1.Text = "Brak ruchu. " + (othelloBoard.player == 1 ? "Gracz Czarny traci kolejke" : "Gracz Biały traci kolejkę");
-                            }
-                            else
-                            {
-                                var bestWhiteCount = listOfAllMoves.Max(x => x.Item1.whiteCount);
-                                var best = listOfAllMoves.Where(x => x.Item1.whiteCount == bestWhiteCount); //lista najlepszych ruchów
-                                Random rnd = new Random();
-                                int bestIndex = rnd.Next(0, best.Count()); // losujemy ruch sposród najlepszych ruchów
-                                var bestMove = best.ElementAt(bestIndex);
-                                System.Threading.Thread.Sleep(1000); // opóźnienie 
-                                MoveIfIsMoveValid(null, bestMove.Item2); //uaktualniamy stan planszy
-                                FindButtonById(bestMove.Item2, othelloBoard.player); //dodajemy element na wybranym polu i uaktualniamy black i white counter
-                            }
-                        }
-
-                        othelloBoard.player = othelloBoard.player * (-1);
+                        NextMoveByComputer();
                     }
                 }
                 else

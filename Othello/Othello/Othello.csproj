@@ -59,11 +59,15 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameNode.cs" />
     <Compile Include="HeuristicStrategy.cs" />
     <Compile Include="IStrategy.cs" />
+    <Compile Include="NodeState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strategy.cs" />
+    <Compile Include="TunedStrategy.cs" />
+    <Compile Include="UTCStrategy.cs" />
     <EmbeddedResource Include="ChooseStrategy.resx">
       <DependentUpon>ChooseStrategy.cs</DependentUpon>
     </EmbeddedResource>

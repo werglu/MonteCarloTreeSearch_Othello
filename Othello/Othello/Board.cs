@@ -12,8 +12,8 @@ namespace Othello
         public int blackCount;
         public int whiteCount;
         public int player = 1; // Black starts
-        public Strategy strategy;
-        public IStrategy solver;
+        //public Strategy strategy;
+        //public IStrategy solver;
         public Board()
         {
             board = new int[8, 8];
@@ -34,6 +34,23 @@ namespace Othello
                 for (int j = 0; j < 8; j++)
                 {
                     if (board[i, j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public bool IsBoardEnd()
+        {
+            if (whiteCount + blackCount == 64)
+                return true;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (board[i, j] == 0 && IsAnyMovePossibleForField(i * 8 + j + 1)) //TODO 
                     {
                         return false;
                     }
@@ -692,5 +709,95 @@ namespace Othello
 
             return valid;
         }
+
+
+        public List<(Board, int)> GetAllPossibleMoves()
+        {
+            var listOfBoards = new List<(Board, int)>(); //zwracamy planszę i pole na którym został wykonany ruch
+
+            for (int ind = 1; ind <= 64; ind++)
+            {
+                var newBoard = new Board();
+                //newBoard.strategy = this.strategy;
+                newBoard.blackCount = this.blackCount;
+                newBoard.whiteCount = this.whiteCount;
+                newBoard.player = this.player;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        newBoard.board[i, j] = this.board[i, j];
+                    }
+                }
+
+                if (newBoard.MakeMoveIfValid(newBoard, ind))
+                {
+                    listOfBoards.Add((newBoard, ind));
+                }
+            }
+
+            return listOfBoards;
+        }
+
+
+
+        public List<(Board, int)> GetAllPossibleMoves2()
+        {
+            var listOfBoards = new List<(Board, int)>(); //zwracamy planszę i pole na którym został wykonany ruch
+
+            for (int ind = 1; ind <= 64; ind++)
+            {
+                var newBoard = new Board();
+                //newBoard.strategy = this.strategy;
+                newBoard.blackCount = this.blackCount;
+                newBoard.whiteCount = this.whiteCount;
+                newBoard.player = this.player;
+                for (int i = 0; i < 8; i++)
+                {
+                    for (int j = 0; j < 8; j++)
+                    {
+                        newBoard.board[i, j] = this.board[i, j];
+                    }
+                }
+
+                if (newBoard.MakeMoveIfValid(newBoard, ind))
+                {
+                    listOfBoards.Add((newBoard, ind));
+                }
+            }
+
+            return listOfBoards;
+        }
+
+        public double CountRewardDiscrete()
+        {
+            if(player == 1) // black player
+            {
+                if (this.blackCount > this.whiteCount)
+                    return 1;
+                else if (this.blackCount == this.whiteCount)
+                    return 0;
+                else return -1;
+            }
+            else
+            {
+                if (this.blackCount < this.whiteCount)
+                    return 1;
+                else if (this.blackCount == this.whiteCount)
+                    return 0;
+                else return -1;
+            }
+        }
+
+        public double CountRewardDifference()
+        {
+            if (player == 1) // black player
+            {
+                return this.blackCount - this.whiteCount;
+            }
+            else return this.whiteCount - this.blackCount; 
+        }
+
+
     }
 }
