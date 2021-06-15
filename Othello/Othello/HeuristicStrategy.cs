@@ -8,15 +8,30 @@ namespace Othello
 {
     public class HeuristicStrategy : IStrategy
     {
-
+        Random rnd;
         public HeuristicStrategy()
         {
-
+            rnd = new Random();
         }
 
         public int GetNextMove(Board board)
         {
-            throw new NotImplementedException();
+            //jeśli jest możliwe położenie piona w rogu to wykonaj ten ruch
+
+            //generujemy wszytskie możliwe ruchy i wybieramy najlepszy
+            var listOfAllMoves = GenerateAllMoves(board);
+            if (listOfAllMoves.Count() == 0) //komputer nie ma ruchu
+            {
+                return -1;
+            }
+            else
+            {
+                var bestWhiteCount = listOfAllMoves.Max(x => x.Item1.whiteCount);
+                var best = listOfAllMoves.Where(x => x.Item1.whiteCount == bestWhiteCount); //lista najlepszych ruchów
+                int bestIndex = rnd.Next(0, best.Count()); // losujemy ruch sposród najlepszych ruchów
+                var bestMove = best.ElementAt(bestIndex);
+                return bestMove.Item2;
+            }
         }
 
         public List<(Board, int)> GenerateAllMoves(Board actualBoard)
