@@ -18,7 +18,7 @@ namespace OthelloGames
             this.strategyOne = strategyOne;
             this.strategyTwo = strategyTwo;
 
-            switch(strategyOne)
+            switch(strategyOne) // player one is black
             {
                 case Strategy.BasicUCT:
                     playerOne = new UTCStrategy(1, cp, budget, true, randomSeed);
@@ -37,7 +37,7 @@ namespace OthelloGames
                     break;
             }
 
-            switch (strategyTwo)
+            switch (strategyTwo) // player two is white
             {
                 case Strategy.BasicUCT:
                     playerTwo = new UTCStrategy(-1, cp, budget, true, randomSeed);
@@ -61,8 +61,8 @@ namespace OthelloGames
         public (int scorePlayerOne, int scorePlayerTwo) PlayGame(bool showPlay = false)
         {
             Board othelloBoard = new Board();
-            bool continueGame = true;
-            while(continueGame)
+            bool stopGame = false;
+            while(!stopGame)
             {
                 // player one move
                 int moveOfPlayerOne = playerOne.GetNextMove(othelloBoard);
@@ -86,7 +86,7 @@ namespace OthelloGames
                 {
                     ShowBoard(othelloBoard);
                 }
-                continueGame = !othelloBoard.IsBoardEnd() && (moveOfPlayerOne >= 0 || moveOfPlayerTwo >= 0);
+                stopGame = othelloBoard.IsBoardEnd() || (moveOfPlayerOne < 0 && moveOfPlayerTwo < 0);
             }
 
             return (othelloBoard.blackCount, othelloBoard.whiteCount);
