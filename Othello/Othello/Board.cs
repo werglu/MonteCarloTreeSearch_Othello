@@ -25,6 +25,26 @@ namespace Othello
             board[4, 4] = 1;
             blackCount = 2;
             whiteCount = 2;
+
+            player = 1; // Black starts
+        }
+
+        public Board CopyBoard()
+        {
+            Board copyBoard = new Board
+            {
+                blackCount = this.blackCount,
+                whiteCount = this.whiteCount,
+                player = this.player
+            };
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    copyBoard.board[i, j] = board[i, j];
+                }
+            }
+            return copyBoard;
         }
 
         public bool IsBoardFill()

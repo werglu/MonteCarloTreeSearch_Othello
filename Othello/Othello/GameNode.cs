@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class GameNode
+    public class GameNode
     {
         private List<(Board, int)> allUntriedActions;
         public List<GameNode> Children { get; }

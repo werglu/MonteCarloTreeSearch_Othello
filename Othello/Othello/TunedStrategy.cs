@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class TunedStrategy : UTCStrategy
+    public class TunedStrategy : UTCStrategy
     {
         public TunedStrategy(int player, double cp, int budget, bool discreteRewardPolicy, int randomSeed = 123): base(player, cp, budget, discreteRewardPolicy, randomSeed)
         {

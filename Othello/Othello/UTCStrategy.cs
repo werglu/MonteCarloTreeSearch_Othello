@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class UTCStrategy : IStrategy
+    public class UTCStrategy : IStrategy
     {
         protected Random random;
         double cp;
@@ -103,7 +103,7 @@ namespace Othello
 
         double DefaultPolicy(GameNode v)
         {
-            Board board = v.state.Board;
+            Board board = v.state.Board.CopyBoard();
             List<(Board, int)> possibleActions;
             int randomIndex;
             while (!board.IsBoardEnd())
