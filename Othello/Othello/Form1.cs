@@ -18,9 +18,6 @@ namespace Othello
         public Form1()
         {
             InitializeComponent();
-            // strategy.Show();
-            //othelloBoard.strategy = strategy.strategy;
-            //othelloBoard.strategy = Strategy.BasicMCTS;
   
             foreach (var button in this.Controls[0].Controls[0].Controls.OfType<Button>())
             {
@@ -33,32 +30,31 @@ namespace Othello
             SetUpButton(button29, Color.White);
             SetUpButton(button36, Color.White);
 
+            
+        }
+
+
+        public void CreateStrategy(Strategy strategy)
+        {
+            gameStrategy = strategy;
             if (gameStrategy == Strategy.Heuristic)
             {
                 solver = new HeuristicStrategy();
             }
             else if (gameStrategy == Strategy.BasicUCT)
             {
-                //var cp = strategy.cp;
-                //var iter = strategy.iter;
                 solver = new UTCStrategy(-1, cp, iter, true);
             }
             else if (gameStrategy == Strategy.UCB1_Tuned)
             {
-                //var cp = strategy.cp;
-                // var iter = strategy.iter;
                 solver = new TunedStrategy(-1, cp, iter, true);
             }
             else if (gameStrategy == Strategy.DiffereceReward_BasicUCT)
             {
-                // var cp = strategy.cp;
-                // var iter = strategy.iter;
                 solver = new UTCStrategy(-1, cp, iter, false);
             }
             else if (gameStrategy == Strategy.DiffereceReward_UCB1_Tuned)
             {
-                // var cp = strategy.cp;
-                //var iter = strategy.iter;
                 solver = new TunedStrategy(-1, cp, iter, false);
             }
         }

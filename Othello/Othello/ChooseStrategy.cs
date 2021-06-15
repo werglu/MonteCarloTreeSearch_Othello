@@ -75,7 +75,7 @@ namespace Othello
             var form = new Form1();
             form.cp = cp;
             form.iter = iter;
-            form.gameStrategy = strategy;
+            form.CreateStrategy(strategy);
             form.Show();
         }
 
