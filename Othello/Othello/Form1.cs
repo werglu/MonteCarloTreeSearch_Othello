@@ -769,31 +769,7 @@ namespace Othello
 
         private void NextMoveByComputer()
         {
-            int nextMove = -1;
-            if (gameStrategy == Strategy.Heuristic)
-            {
-                //jeśli jest możliwe położenie piona w rogu to wykonaj ten ruch
-
-                //generujemy wszytskie możliwe ruchy i wybieramy najlepszy
-                var listOfAllMoves = solver.GenerateAllMoves(othelloBoard);
-                if (listOfAllMoves.Count() == 0) //komputer nie ma ruchu
-                {
-                    nextMove = -1;
-                }
-                else
-                {
-                    var bestWhiteCount = listOfAllMoves.Max(x => x.Item1.whiteCount);
-                    var best = listOfAllMoves.Where(x => x.Item1.whiteCount == bestWhiteCount); //lista najlepszych ruchów
-                    Random rnd = new Random();
-                    int bestIndex = rnd.Next(0, best.Count()); // losujemy ruch sposród najlepszych ruchów
-                    var bestMove = best.ElementAt(bestIndex);
-                    nextMove = bestMove.Item2;
-                }
-            }
-            else
-            {
-                nextMove = solver.GetNextMove(othelloBoard);
-            }
+            int nextMove = solver.GetNextMove(othelloBoard);
 
             if(nextMove >= 0)
             {

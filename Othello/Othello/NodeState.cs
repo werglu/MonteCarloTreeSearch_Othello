@@ -6,20 +6,22 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class NodeState
+    public class NodeState
     {
         public int SimulationsCounter { get; set; }
         public double SimulationsReward { get; set; }
         public List<double> RewardList { get; set; }
         public Board Board { get; }
         public bool IsTerminal { get; set; }
-        public NodeState(int simulationsCount, double simulationsReward, Board b, bool isTerminal)
+        public NodeState(int simulationsCount, double simulationsReward, Board board, bool isTerminal)
         {
             this.SimulationsCounter = simulationsCount;
             this.SimulationsReward = simulationsReward;
-            this.Board = b;
+            
             IsTerminal = isTerminal;
             RewardList = new List<double>();
+            Board = board.CopyBoard();
+
         }
 
         public double CalculateUCTValue(double cp, int nParent)

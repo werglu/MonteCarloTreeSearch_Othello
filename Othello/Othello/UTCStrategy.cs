@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    class UTCStrategy : IStrategy
+    public class UTCStrategy : IStrategy
     {
         protected Random random;
         double cp;
@@ -80,7 +80,6 @@ namespace Othello
 
         protected virtual GameNode BestChild(GameNode v, double cp)
         {
-            if (v.Children.Count == 0) return v; 
             int argMax = 0;
             double valMax = double.MinValue;
             int nodeN = v.state.SimulationsCounter;
@@ -103,7 +102,7 @@ namespace Othello
 
         double DefaultPolicy(GameNode v)
         {
-            Board board = v.state.Board;
+            Board board = v.state.Board.CopyBoard();
             List<(Board, int)> possibleActions;
             int randomIndex;
             while (!board.IsBoardEnd())
