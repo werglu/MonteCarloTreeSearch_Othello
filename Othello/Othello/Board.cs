@@ -205,7 +205,7 @@ namespace Othello
                         canReverse = true;
                         break;
                     }
-                    else if (board[row, c] == 0) //empty
+                    else if (board[r, c] == 0) //empty 
                     {
                         break;
                     }

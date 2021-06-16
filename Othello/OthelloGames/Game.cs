@@ -100,7 +100,7 @@ namespace OthelloGames
                 for (int j = 0; j < 8; j++)
                 {
                     if (board.board[i, j] == 0)
-                        Console.Write("  ");
+                        Console.Write("O ");
                     else if(board.board[i, j] == 1)
                         Console.Write("B ");
                     else
